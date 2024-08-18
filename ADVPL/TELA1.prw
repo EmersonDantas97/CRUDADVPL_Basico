@@ -6,8 +6,8 @@
 User Function TELA1()
 
     Private cGCod      := Space(5)
-    Private cGEndereco := Space(20)
     Private cGNome     := Space(10)
+    Private cGEndereco := Space(20)
 
     // Array de armazenamento
     Private aDados := {}
@@ -29,18 +29,46 @@ User Function TELA1()
 
     // Botoes para interacao
     oBIncluir  := TButton():New( 018,208,"Incluir",oDlg1,{|u| fInclui(cGCod, cGNome, cGEndereco), cGCod := Space(5), cGNome := Space(10), cGEndereco := Space(20)},037,012,,,,.T.,,"",,,,.F. ) // Bloco de códigos faz a utilização da função fInclui e depóis preenche os campos com espacos. 
-    oBMostraTo := TButton():New( 064,012,"Mostrar todos",oDlg1,,037,012,,,,.T.,,"",,,,.F. )
+    oBMostraTo := TButton():New( 064,012,"Mostrar todos",oDlg1,{|u|fMostrarTodos()},037,012,,,,.T.,,"",,,,.F. )
 
     oDlg1:Activate(,,,.T.)
 
 Return
 
+/*
+// Este exemplo de funcao fInclui foi feito, so para demonstrativo. A funcao sera refeita, inserindo as informacoes no banco de dados. 
 Static Function fInclui(cCod, cNome, cEndereco)
 
+    // Ao clicar no botao incluir, será feita uma verificacao se os campos foram preenchidos. Caso nao, sera apresentado uma msg ao usuario.
     If Empty(Alltrim(cCod)) .Or. Empty(Alltrim(cNome)) .Or. Empty(Alltrim(cEndereco))
         Alert("Existem campos vazios! Favor preencher!", "ATENÇÃO") 
     Else
         Aadd(aDados, {cCod, cNome, cEndereco})
+        MsgInfo("Inclusão feita com sucesso!", "AVISO")
+    EndIf
+
+Return
+*/
+
+Static Function fInclui(cCod, cNome, cEndereco)
+
+    // Ao clicar no botao incluir, será feita uma verificacao se os campos foram preenchidos. Caso nao, sera apresentado uma msg ao usuario.
+    If Empty(Alltrim(cCod)) .Or. Empty(Alltrim(cNome)) .Or. Empty(Alltrim(cEndereco))
+        Alert("Existem campos vazios! Favor preencher!", "ATENÇÃO") 
+    Else
+        
+        dbSelectArea('ZA1') // Selecionando a tabela que foi criada.
+        
+        ZA1->(dbGoBottom())
+            RecLock('ZA1',.T.) // Comando utilizado para gravar informacoes dentro da tabela
+            ZA1->ZA1_COD := cCod
+            ZA1->ZA1_NOME := cNome
+            ZA1->ZA1_ENDERE := cEndereco
+            MsUnlock()
+        MsUnlock()
+
+        dbCloseArea('ZA1')
+
         MsgInfo("Inclusão feita com sucesso!", "AVISO")
     EndIf
 
@@ -50,13 +78,14 @@ Static Function fMostrarTodos()
 
     Local nCount
 
+    // Caso a variavel aDados nao esteja preenchida, sera exibido uma msg ao usuario. 
     If Len(aDados) = 0 
         Alert('Não há dados para exibir!', 'ATENÇÃO')
     Else
         For nCount := 1 to Len(aDados)
-        MsgInfo("CÓDIGO -> " + aDados[nCount][1] +;
-                "NOME -> " + aDados[nCount][2] +; 
-                "CÓDIGO -> " + aDados[nCount][3])
+        MsgInfo("CÓDIGO: " + aDados[nCount][1] +;
+                "; NOME: " + aDados[nCount][2] +; 
+                "; RUA: " + aDados[nCount][3] + ".")
         Next nCount
     EndIf
 
