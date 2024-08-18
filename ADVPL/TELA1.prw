@@ -28,7 +28,7 @@ User Function TELA1()
     oGEndereco := TGet():New( 020,139,{|u| If(PCount()>0,cGEndereco:=u,cGEndereco)},oDlg1,060,008,'',,CLR_BLACK,CLR_WHITE,,,,.T.,"",,,.F.,.F.,,.F.,.F.,"","cGEndereco",,)
 
     // Botoes para interacao
-    oBIncluir  := TButton():New( 018,208,"Incluir",oDlg1,,037,012,,,,.T.,,"",,,,.F. )
+    oBIncluir  := TButton():New( 018,208,"Incluir",oDlg1,{|u| fInclui(cGCod, cGNome, cGEndereco), cGCod := Space(5), cGNome := Space(10), cGEndereco := Space(20)},037,012,,,,.T.,,"",,,,.F. ) // Bloco de códigos faz a utilização da função fInclui e depóis preenche os campos com espacos. 
     oBMostraTo := TButton():New( 064,012,"Mostrar todos",oDlg1,,037,012,,,,.T.,,"",,,,.F. )
 
     oDlg1:Activate(,,,.T.)
@@ -41,7 +41,24 @@ Static Function fInclui(cCod, cNome, cEndereco)
         Alert("Existem campos vazios! Favor preencher!", "ATENÇÃO") 
     Else
         Aadd(aDados, {cCod, cNome, cEndereco})
-        MsgInfo("Inclusao feita com sucesso!", "AVISO")
+        MsgInfo("Inclusão feita com sucesso!", "AVISO")
     EndIf
 
 Return
+
+Static Function fMostrarTodos()
+
+    Local nCount
+
+    If Len(aDados) = 0 
+        Alert('Não há dados para exibir!', 'ATENÇÃO')
+    Else
+        For nCount := 1 to Len(aDados)
+        MsgInfo("CÓDIGO -> " + aDados[nCount][1] +;
+                "NOME -> " + aDados[nCount][2] +; 
+                "CÓDIGO -> " + aDados[nCount][3])
+        Next nCount
+    EndIf
+
+Return
+
