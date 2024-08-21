@@ -74,6 +74,26 @@ Static Function fInclui(cCod, cNome, cEndereco)
 
 Return
 
+/*
+// O exemplo abaixo foi feito somente para demonstracao, sem acesso ao bd. A rotina sera refeita acessando o banco de dados.
+Static Function fMostrarTodos()
+
+    Local nCount
+
+    // Caso a variavel aDados nao esteja preenchida, sera exibido uma msg ao usuario. 
+    If Len(aDados) = 0 
+        Alert('Não há dados para exibir!', 'ATENÇÃO')
+    Else
+        For nCount := 1 to Len(aDados)
+        MsgInfo("CÓDIGO: " + aDados[nCount][1] +;
+                "; NOME: " + aDados[nCount][2] +; 
+                "; RUA: " + aDados[nCount][3] + ".")
+        Next nCount
+    EndIf
+
+Return
+*/
+
 Static Function fMostrarTodos()
 
     Local nCount
