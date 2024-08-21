@@ -96,17 +96,29 @@ Return
 
 Static Function fMostrarTodos()
 
-    Local nCount
+    dbSelectArea('ZA1')
+    ZA1->(dbGoTop())
 
-    // Caso a variavel aDados nao esteja preenchida, sera exibido uma msg ao usuario. 
-    If Len(aDados) = 0 
+    // Caso a tabela ZA1 nao esteja preenchida (com numero de linhas igual a 0), sera exibido uma msg ao usuario e fechado a selecao da tabela.
+    If ZA1->(RECCOUNT()) = 0 
+        
         Alert('Não há dados para exibir!', 'ATENÇÃO')
+        dbCloseArea('ZA1')
+        
     Else
-        For nCount := 1 to Len(aDados)
-        MsgInfo("CÓDIGO: " + aDados[nCount][1] +;
-                "; NOME: " + aDados[nCount][2] +; 
-                "; RUA: " + aDados[nCount][3] + ".")
-        Next nCount
+
+        dbSelectArea('ZA1')
+        ZA1->(dbGoTop())
+
+        While !ZA1->(EOF())
+            MsgInfo("CÓDIGO: " + ZA1->ZA1_COD +;
+                    "; NOME: " + ZA1->ZA1_NOME +; 
+                    "; RUA: " + ZA1->ZA1_ENDERE + ".")
+            ZA1->(dbSkip())
+        EndDo
+
+        dbCloseArea('ZA1')
+
     EndIf
 
 Return
