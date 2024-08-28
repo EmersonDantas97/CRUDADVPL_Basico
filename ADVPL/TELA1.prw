@@ -96,8 +96,8 @@ Return
 
 Static Function fMostrarTodos()
 
-    dbSelectArea('ZA1')
-    ZA1->(dbGoTop())
+    dbSelectArea('ZA1') // Selecionando a tabela/area. 
+    ZA1->(dbGoTop()) // Posicionando no primeiro registro.
 
     // Caso a tabela ZA1 nao esteja preenchida (com numero de linhas igual a 0), sera exibido uma msg ao usuario e fechado a selecao da tabela.
     If ZA1->(RECCOUNT()) = 0 
@@ -107,17 +107,17 @@ Static Function fMostrarTodos()
         
     Else
 
-        dbSelectArea('ZA1')
-        ZA1->(dbGoTop())
+        dbSelectArea('ZA1') // Selecionando a tabela ZA1.
+        ZA1->(dbGoTop()) // Indo para primeiro registro.
 
         While !ZA1->(EOF())
             MsgInfo("CÓDIGO: " + ZA1->ZA1_COD +;
                     "; NOME: " + ZA1->ZA1_NOME +; 
                     "; RUA: " + ZA1->ZA1_ENDERE + ".")
-            ZA1->(dbSkip())
+            ZA1->(dbSkip()) // Passando para o proximo registro.
         EndDo
 
-        dbCloseArea('ZA1')
+        dbCloseArea('ZA1') // Fechando conexao com tabela/area. 
 
     EndIf
 
